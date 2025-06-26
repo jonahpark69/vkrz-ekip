@@ -1,0 +1,14 @@
+RewriteEngine On
+
+# Add trailing slash if missing for /molotov on both local and production
+RewriteCond %{REQUEST_URI} ^/vkrz-tirage/molotov$ [OR]
+RewriteCond %{REQUEST_URI} ^/molotov$
+RewriteRule ^(.*[^/])$ $1/ [R=301,L]
+
+# Redirect to the correct file based on environment
+RewriteCond %{HTTP_HOST} ^localhost
+RewriteRule ^molotov/?$ assets/molotov/index.php [L]
+
+# For production environment (adjust the paths as per production server)
+RewriteCond %{HTTP_HOST} !^localhost
+RewriteRule ^molotov/?$ /assets/molotov/index.php [L]
