@@ -44,33 +44,6 @@ if (submitManualInputBtn && manualInput) {
   });
 }
 
-// 📡 Récupération via Twitch (via tmi.js)
-const twitchBtn = document.getElementById("getTwitchParticipants");
-if (twitchBtn) {
-  twitchBtn.addEventListener("click", function () {
-    const channel = prompt("Nom de la chaîne Twitch :");
-    if (!channel) return;
-
-    const client = new tmi.Client({
-      channels: [channel],
-    });
-
-    let noms = new Set();
-
-    client.connect();
-    client.on("message", (channel, tags, message, self) => {
-      if (!self) noms.add(tags.username);
-    });
-
-    // Arrête après 10 secondes et stocke les noms
-    setTimeout(() => {
-      client.disconnect();
-      window.joueurs = Array.from(noms);
-      document.getElementById("number-participants-dom").textContent = window.joueurs.length;
-      alert(`${window.joueurs.length} participants récupérés via Twitch`);
-    }, 10000);
-  });
-}
 
 // 🛠️ Toutes les fonctionnalités de création d'équipes sont à développer dans ekip.js
 

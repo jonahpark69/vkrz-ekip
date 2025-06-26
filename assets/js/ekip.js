@@ -1,10 +1,9 @@
 
-// ekip.js — Création des équipes depuis la liste window.joueurs
+// ekip.js — version avec bouton manuel "Trier les équipes"
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("✅ ekip.js chargé");
+  console.log("✅ ekip.js avec tri manuel chargé");
 });
 
-// Fonction utilitaire pour mélanger un tableau (Fisher-Yates)
 function melanger(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -13,12 +12,11 @@ function melanger(array) {
   return array;
 }
 
-// Fonction principale de création d'équipes
 function creerEquipes() {
   const nbEquipesInput = document.getElementById("nbEquipes");
   const nbJoueursInput = document.getElementById("nbJoueursParEquipe");
   const zoneEquipes = document.getElementById("zone-equipes");
-  zoneEquipes.innerHTML = ""; // Réinitialiser
+  zoneEquipes.innerHTML = "";
 
   let joueurs = [...window.joueurs];
   if (joueurs.length === 0) {
@@ -48,39 +46,106 @@ function creerEquipes() {
     return;
   }
 
-  // 🔻 Affichage des équipes
   equipes.forEach((equipe, index) => {
-    const bloc = document.createElement("div");
-    bloc.classList.add("equipe-card");
-    bloc.innerHTML = `
-      <div class="equipe-header">
-        <h3 contenteditable="true">Équipe ${index + 1}</h3>
-        <button class="btn-suppr-ekip">Suppr Équipe</button>
-        <button class="btn-elim">Éliminer</button>
-      </div>
-      <ul class="equipe-joueurs">
-        ${equipe.map(joueur => `<li>${joueur} <button class="btn-suppr-joueur">Suppr</button></li>`).join("")}
-      </ul>
-      <div class="equipe-points">
-        <button class="btn-minus">-</button>
-        <span class="points">0</span>
-        <button class="btn-plus">+</button>
-      </div>
-    `;
-    zoneEquipes.appendChild(bloc);
-  });
+    const card = document.createElement("div");
+    card.className = "equipe-card";
 
-  // ✅ Activation suppression d’un joueur
-  const boutonsSupprJoueur = document.querySelectorAll(".btn-suppr-joueur");
-  boutonsSupprJoueur.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const li = e.target.closest("li");
-      if (li) li.remove();
+    const header = document.createElement("div");
+    header.className = "equipe-header";
+
+    const label = document.createElement("div");
+    label.className = "equipe-label d-none";
+    label.textContent = "Éliminée";
+
+    const title = document.createElement("h3");
+    title.contentEditable = true;
+    title.textContent = `Équipe ${index + 1}`;
+
+    const btnSuppr = document.createElement("button");
+    btnSuppr.className = "btn-suppr-ekip";
+    btnSuppr.textContent = "Suppr Équipe";
+
+    const btnElim = document.createElement("button");
+    btnElim.className = "btn-elim";
+    btnElim.textContent = "Éliminer";
+
+    header.append(label, title, btnSuppr, btnElim);
+    card.appendChild(header);
+
+    const ul = document.createElement("ul");
+    ul.className = "equipe-joueurs";
+    equipe.forEach(joueur => {
+      const li = document.createElement("li");
+      li.textContent = joueur + " ";
+      const btnDel = document.createElement("button");
+      btnDel.className = "btn-suppr-joueur";
+      btnDel.textContent = "Suppr";
+      btnDel.addEventListener("click", () => li.remove());
+      li.appendChild(btnDel);
+      ul.appendChild(li);
     });
+    card.appendChild(ul);
+
+    const pointDiv = document.createElement("div");
+    pointDiv.className = "equipe-points";
+
+    const btnMinus = document.createElement("button");
+    btnMinus.className = "btn-minus";
+    btnMinus.textContent = "-";
+
+    const score = document.createElement("span");
+    score.className = "points";
+    score.textContent = "0";
+
+    const btnPlus = document.createElement("button");
+    btnPlus.className = "btn-plus";
+    btnPlus.textContent = "+";
+
+    pointDiv.append(btnMinus, score, btnPlus);
+    card.appendChild(pointDiv);
+
+    btnSuppr.addEventListener("click", () => card.remove());
+
+    btnElim.addEventListener("click", () => {
+      card.classList.toggle("elimine");
+      label.classList.toggle("d-none");
+    });
+
+    btnPlus.addEventListener("click", () => {
+      let current = parseInt(score.textContent);
+      score.textContent = current + 1;
+    });
+
+    btnMinus.addEventListener("click", () => {
+      let current = parseInt(score.textContent);
+      if (current > 0) {
+        score.textContent = current - 1;
+      }
+    });
+
+    document.getElementById("zone-equipes").appendChild(card);
   });
 }
 
-// Attacher l'écouteur de soumission du formulaire
+function trierEquipes() {
+  const zoneEquipes = document.getElementById("zone-equipes");
+  const cartes = Array.from(zoneEquipes.querySelectorAll(".equipe-card"));
+
+  cartes.sort((a, b) => {
+    const elimA = a.classList.contains("elimine");
+    const elimB = b.classList.contains("elimine");
+
+    if (elimA !== elimB) return elimA ? 1 : -1;
+
+    const pointsA = parseInt(a.querySelector(".points").textContent);
+    const pointsB = parseInt(b.querySelector(".points").textContent);
+
+    return pointsB - pointsA;
+  });
+
+  cartes.forEach(carte => zoneEquipes.appendChild(carte));
+}
+
 const formEkip = document.getElementById("ekip-options");
 if (formEkip) {
   formEkip.addEventListener("submit", function (e) {
@@ -89,4 +154,8 @@ if (formEkip) {
   });
 }
 
-console.log("✅ ekip.js prêt avec suppression des joueurs activée");
+// Bouton manuel de tri
+const boutonTri = document.getElementById("btn-trier");
+if (boutonTri) {
+  boutonTri.addEventListener("click", trierEquipes); 
+}

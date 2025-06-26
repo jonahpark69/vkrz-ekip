@@ -48,59 +48,59 @@
       </div>
     </header>
 
-    <section id="choice">
-      <!-- Import CSV -->
-      <div class="import">
-        <input type="file" name="csvFileInput" accept=".csv" id="csvFileInput" class="d-none" />
-        <p>Liste CSV à une colonne</p>
-        <label for="csvFileInput" class="button csvFileInputLabel">Importer une liste</label>
-      </div>
 
-      <!-- Twitch participants -->
-      <div class="separation">
-        <div class="twitch twitch-participants">
-          <div class="icon"></div>
-          <button class="button" class="title" id="getTwitchParticipants">
-            Récupérer les participants d'un Live Twitch
-          </button>
-        </div>
-      </div>
-
-      <!-- Manual input -->
-      <div id="manualInputContainer">
-        <form>
-          <textarea id="manualInput" rows="4" cols="50" placeholder="Ecrivez les noms des participants ici..." required></textarea><br>
-          <button class="button" id="submitManualInput">Valider les participants</button>
-        </form>
-      </div>
-    </section>
-
-<section id="form-creer-ekip" class="ekip-form-block">
-  <h2>Créer des ékip</h2>
-  <form id="ekip-options">
-    <label for="nbEquipes">Nombre d’équipes :</label>
-    <input type="number" id="nbEquipes" placeholder="Ex: 2" />
-
-    <p class="ou-text">OU</p>
-
-    <label for="nbJoueursParEquipe">Nombre de joueurs par équipe :</label>
-    <input type="number" id="nbJoueursParEquipe" placeholder="Ex: 3" />
-
-    <button type="submit" class="vkrz-btn">Créer les ékip</button>
-  </form>
+<section id="choice">
+  <div class="section-container">
+    <div class="import-box">
+      <p>Liste CSV à une colonne</p>
+      <label for="csvFileInput" class="vkrz-btn">Importer une liste</label>
+      <input type="file" name="csvFileInput" accept=".csv" id="csvFileInput" class="d-none" />
+    </div>
+    <div class="textarea-box">
+      <label for="manualInput">Écrivez les noms des participants ici…</label>
+      <textarea id="manualInput" rows="6" placeholder="Jean
+Marie
+Chloé…"></textarea>
+    </div>
+    <div class="btn-row">
+      <button class="vkrz-btn" id="submitManualInput">Valider les participants</button>
+    </div>
+  </div>
 </section>
 
-
-
-
-
-
     <!-- Zone d'affichage des équipes -->
-    <section id="zone-equipes">
+    <section>
       <!-- JS remplira ici dynamiquement les ékip -->
     </section>
 
   </main>
+
+  
+<section id="ekip">
+  <div class="ekip-section">
+    <div class="ekip-form-block">
+      <h2 class="ekip-title">Créer une équipe</h2>
+      <form id="ekip-options">
+        <div class="form-group">
+          <label for="nbEquipes">Nombre d’équipes :</label>
+          <input type="number" id="nbEquipes" placeholder="Ex : 3" />
+        </div>
+        <div class="form-group">
+          <label for="nbJoueursParEquipe">Ou nombre de joueurs / équipe :</label>
+          <input type="number" id="nbJoueursParEquipe" placeholder="Ex : 4" />
+        </div>
+        <div class="form-buttons">
+          <button type="submit" class="vkrz-btn">Faire les ékip</button>
+          <button type="button" id="btn-trier" class="vkrz-btn secondary">Trier les ékip</button>
+        </div>
+      </form>
+    </div>
+    <div class="ekip-list" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;" id="zone-equipes"></div>
+  </div>
+</section>
+
+
+
 
   <script src="./assets/js/papaparse.min.js"></script>
   <script src="./assets/js/tmi.min.js"></script>
