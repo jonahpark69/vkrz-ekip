@@ -1,10 +1,8 @@
-// ekip.js — à venir : logique pour créer les équipes à partir de window.joueurs
+
+// ekip.js — Création des équipes depuis la liste window.joueurs
 document.addEventListener("DOMContentLoaded", () => {
   console.log("✅ ekip.js chargé");
 });
-
-// ekip.js — Création des équipes depuis la liste window.joueurs
-// Étape 3.2 : lecture du formulaire, génération des équipes et affichage dynamique
 
 // Fonction utilitaire pour mélanger un tableau (Fisher-Yates)
 function melanger(array) {
@@ -20,7 +18,7 @@ function creerEquipes() {
   const nbEquipesInput = document.getElementById("nbEquipes");
   const nbJoueursInput = document.getElementById("nbJoueursParEquipe");
   const zoneEquipes = document.getElementById("zone-equipes");
-  zoneEquipes.innerHTML = ""; // Vider la zone avant d'afficher
+  zoneEquipes.innerHTML = ""; // Réinitialiser
 
   let joueurs = [...window.joueurs];
   if (joueurs.length === 0) {
@@ -28,20 +26,18 @@ function creerEquipes() {
     return;
   }
 
-  joueurs = melanger(joueurs); // Mélange pour répartition aléatoire
+  joueurs = melanger(joueurs);
 
   let equipes = [];
   const nbEquipes = parseInt(nbEquipesInput.value);
   const nbJoueursParEquipe = parseInt(nbJoueursInput.value);
 
   if (nbEquipes > 0) {
-    // Répartition par nombre d'équipes
     for (let i = 0; i < nbEquipes; i++) equipes.push([]);
     joueurs.forEach((joueur, index) => {
       equipes[index % nbEquipes].push(joueur);
     });
   } else if (nbJoueursParEquipe > 0) {
-    // Répartition par nombre de joueurs / équipe
     const nbEquipesCalc = Math.ceil(joueurs.length / nbJoueursParEquipe);
     for (let i = 0; i < nbEquipesCalc; i++) equipes.push([]);
     joueurs.forEach((joueur, index) => {
@@ -52,18 +48,18 @@ function creerEquipes() {
     return;
   }
 
-  // Affichage des équipes dans le DOM
+  // 🔻 Affichage des équipes
   equipes.forEach((equipe, index) => {
     const bloc = document.createElement("div");
     bloc.classList.add("equipe-card");
     bloc.innerHTML = `
       <div class="equipe-header">
         <h3 contenteditable="true">Équipe ${index + 1}</h3>
-        <button class="btn-suppr-ekip">🗑️</button>
-        <button class="btn-elim">☠️</button>
+        <button class="btn-suppr-ekip">Suppr Équipe</button>
+        <button class="btn-elim">Éliminer</button>
       </div>
       <ul class="equipe-joueurs">
-        ${equipe.map(joueur => `<li>${joueur} <button class="btn-suppr-joueur">🗑️</button></li>`).join("")}
+        ${equipe.map(joueur => `<li>${joueur} <button class="btn-suppr-joueur">Suppr</button></li>`).join("")}
       </ul>
       <div class="equipe-points">
         <button class="btn-minus">-</button>
@@ -72,6 +68,15 @@ function creerEquipes() {
       </div>
     `;
     zoneEquipes.appendChild(bloc);
+  });
+
+  // ✅ Activation suppression d’un joueur
+  const boutonsSupprJoueur = document.querySelectorAll(".btn-suppr-joueur");
+  boutonsSupprJoueur.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const li = e.target.closest("li");
+      if (li) li.remove();
+    });
   });
 }
 
@@ -84,4 +89,4 @@ if (formEkip) {
   });
 }
 
-console.log("✅ ekip.js chargé avec création des ékip");
+console.log("✅ ekip.js prêt avec suppression des joueurs activée");
