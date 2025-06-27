@@ -119,11 +119,14 @@ header .gift-img  {
 }
 
 section {
-  background: rgba(29, 25, 64, 0.8);
+  background: rgba(29, 25, 64, 0.5);
   border-radius: 12px;
   flex: 1;
-  min-width: 100%;
-  max-width: 100%;
+  width: 100%;
+max-width: 1400px;
+margin: 0 auto;
+padding: 0 30px;
+
 
   display: flex;
   justify-content: space-around;
@@ -441,7 +444,7 @@ button[disabled] {
   margin: 50px auto;
   padding: 50px 0px;          /* ← Réduit un peu le padding interne */
   border-radius: 16px;
-  background: rgba(29, 25, 64, 0.8);
+  background: rgba(29, 25, 64, 0.5);
   color: white;
   box-shadow: 0 0 20px rgba(255, 0, 128, 0.1);
   box-sizing: border-box;
@@ -627,13 +630,14 @@ textarea {
 .ekip-list {
   display: grid !important;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  gap: 60px 100px; /* 60px vertical, 100px horizontal */
   margin-top: 40px;
   width: 100%;
   max-width: 1400px;
   padding: 0 20px;
   box-sizing: border-box;
 }
+
 
 @media (max-width: 1200px) {
   .ekip-list {
@@ -658,7 +662,13 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
 }
+
+
 
 .ekip-header {
   display: flex;
@@ -709,6 +719,45 @@ textarea {
   flex-direction: column;
   gap: 12px;
 }
+
+.equipe-card {
+  position: relative;
+}
+
+.points-indicateur {
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  opacity: 0.8;
+}
+
+
+.equipe-card.elimine {
+  opacity: 1; /* garder 100% de visibilité */
+  filter: grayscale(100%);
+  transform: scale(0.97);
+  pointer-events: none;
+}
+
+.equipe-card.elimine * {
+  opacity: 1 !important; /* assure la visibilité du texte */
+  color: #333 !important; /* tu peux ajuster selon le thème */
+}
+
+@keyframes elimFlash {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); background-color: #ffe0e0; }
+  100% { transform: scale(0.97); background-color: #f0f0f0; }
+}
+
+.equipe-card.elimine {
+  animation: elimFlash 0.4s ease forwards;
+  filter: grayscale(100%);
+}
+
 
 .equipe-header {
   display: flex;
@@ -792,7 +841,7 @@ textarea {
 }
 
 .ekip-form-block {
-  background: rgba(20, 20, 40, 0.8);
+  background: rgba(20, 20, 40, 0.6);
   padding: 30px;
   border-radius: 16px;
   max-width: 300px;
@@ -860,3 +909,162 @@ textarea {
 .vkrz-btn.secondary:hover {
   background-color: #530e44;
 }
+
+/* ANIMATIONS AJOUTÉES */
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceButton {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.equipe-card {
+  animation: fadeInUp 0.5s ease;
+  transition: all 0.3s ease-in-out;
+}
+
+.equipe-score.updated {
+  animation: pulse 0.5s ease;
+}
+
+.equipe-points button:active,
+.btn-suppr-ekip:active,
+.btn-elim:active {
+  animation: bounceButton 0.3s ease;
+}
+
+#suspense-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 10, 40, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease;
+}
+
+.suspense-hidden {
+  display: none !important;
+}
+
+
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.6; }
+}
+
+/* === Animation de clignotement suspense === */
+
+.suspense-text {
+  font-size: 38px;
+  color: #ff1475;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  animation: flash 0.8s infinite;
+}
+
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* === Cercle de chargement animé === */
+
+.suspense-loader {
+  width: 120px;
+  height: 120px;
+  border: 8px solid rgba(255, 255, 255, 0.1);
+  border-top: 8px solid #ff1475;
+  border-radius: 50%;
+  animation: rotate 1s linear infinite;
+  position: absolute;
+  z-index: 1;
+}
+
+.suspense-text {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.equipe-card {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.equipe-card-anim {
+  animation: fadeInPop 0.4s ease-out forwards;
+}
+
+@keyframes fadeInPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.bulle-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background: #ffffff;
+  color: #222222;
+  padding: 18px 32px;
+  border-radius: 40px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  font-size: 22px;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 9999;
+}
+
+.bulle-message.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+
+

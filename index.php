@@ -7,9 +7,21 @@
   <title>Faire des ékip | VAINKEURZ</title>
   <link rel="shortcut icon" href="./assets/media/apple-touch-icon.png" type="image/x-icon" />
   <link rel="stylesheet" href="./assets/css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 </head>
 
 <body>
+
+
+
+
+<div id="suspense-overlay" class="suspense-hidden">
+  <div class="suspense-loader"></div>
+  <div class="suspense-text">Préparation des ékip...</div>
+</div>
+
+
   <video autoplay muted loop class="background-video">
     <source src="./assets/media/vkrz-animated-bg.mp4" type="video/mp4" />
     Your browser does not support HTML5 video.
@@ -17,36 +29,31 @@
 
   <main>
     <header>
-      <div class="logo">
-        <a href="#" onclick="window.location.reload();">
-          <div class="llama-logo">
-            <img src="./assets/media/logo-vkrz-without-eyes.png" alt="VAINKEURZ Logo" />
-            <div class="llama-eye" id="left-eye">
-              <img src="./assets/media/eye.png" alt="Left Eye">
-            </div>
-            <div class="llama-eye" id="right-eye">
-              <img src="./assets/media/eye.png" alt="Right Eye">
-            </div>
-          </div>
-        </a>
+  <div class="logo">
+    <a href="#" onclick="window.location.reload();">
+      <div class="llama-logo">
+        <img src="./assets/media/logo-vkrz-without-eyes.png" alt="VAINKEURZ Logo" />
+        <div class="llama-eye" id="left-eye">
+          <img src="./assets/media/eye.png" alt="Left Eye" />
+        </div>
+        <div class="llama-eye" id="right-eye">
+          <img src="./assets/media/eye.png" alt="Right Eye" />
+        </div>
       </div>
+    </a>
+  </div>
 
-      <div class="title">
-        <h1>Faire des ékip</h1>
-        <p class="sub-header-text">
-          Prêts pour la compétition ?
-          <img src="./assets/media/crossed-fingers.png" alt="" />
-        </p>
-      </div>
+  <div class="title">
+    <h1>Faire des ékip</h1>
+    <p class="sub-header-text">
+      Prêts pour la compétition ?
+      <img src="./assets/media/crossed-fingers.png" alt="" />
+    </p>
+  </div>
 
-      <div class="stats">
-        <div class="loader d-none"></div>
-        <p>
-          <strong id="number-participants-dom">0</strong><br />
-          Participants
-        </p>
-      </div>
-    </header>
+  
+</header>
+
 
 
 <section id="choice">
@@ -86,12 +93,12 @@ Chloé…"></textarea>
           <input type="number" id="nbEquipes" placeholder="Ex : 3" />
         </div>
         <div class="form-group">
-          <label for="nbJoueursParEquipe">Ou nombre de joueurs / équipe :</label>
+          <label for="nbJoueursParEquipe">Nombre de joueurs/équipe :</label>
           <input type="number" id="nbJoueursParEquipe" placeholder="Ex : 4" />
         </div>
         <div class="form-buttons">
           <button type="submit" class="vkrz-btn">Faire les ékip</button>
-          <button type="button" id="btn-trier" class="vkrz-btn secondary">Trier les ékip</button>
+          
         </div>
       </form>
     </div>
