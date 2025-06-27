@@ -298,4 +298,3 @@ window.addEventListener("load", () => {
   }, 10); // Petit délai pour forcer le scroll tout en haut
 });
 
-

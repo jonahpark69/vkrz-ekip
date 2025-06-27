@@ -1,0 +1,42 @@
+# Système
+.DS_Store
+Thumbs.db
+
+# Node.js (si jamais tu ajoutes un jour npm pour un script)
+node_modules/
+package-lock.json
+
+# fichiers de logs ou temporaires
+*.log
+*.tmp
+*.temp
+
+# Fichiers d'import export
+*.csv
+*.xlsx
+*.zip
+
+# Cache de l’IDE
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Fichiers de déploiement éventuel
+dist/
+build/
+
+# Sauvegardes d’éditeur
+*~
+*.bak
+
+# Fichiers spécifiques non suivis
+.env
+.env.local
+
+# Fichiers audio inutiles temporaires (au cas où)
+assets/sounds/*.mp3
+assets/sounds/*.wav
+!assets/sounds/success-*.wav
+!assets/sounds/loose-*.wav
+!assets/sounds/tension-*.mp3
